@@ -1,0 +1,107 @@
+import { useState } from 'react';
+
+const initialState = { email: '',
+    password: '', };
+const LoginForm = () => {
+  const [form, setForm] = useState(initialState);
+  const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    //console.log(e.target.value);
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+       
+    e.preventDefault();
+    try{
+        const email = form.email; 
+        const password = form.password; 
+
+    if(!email )throw new Error("Email should not be blank ");
+    if(!password )throw new Error("Password should not be blank ");
+     
+    const callApi=   async () => {
+            const rawResponse = await fetch('http://localhost:3001/api/auth/login', {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+        const content = await rawResponse.json();
+        
+        console.log(content);
+        const data = content.token;
+        if(data){
+           // localStorage.setItem('token', data);
+           console.log(data);
+            alert("Login successful!");
+        }else{
+            alert("Login failed!");
+        }
+    };
+     callApi()
+        
+    }catch(error){
+      alert(error);
+    }finally{
+        setForm(initialState);
+    }
+        
+        
+    };
+  
+
+  return (
+        
+    <div className="bg-blue-200 p-6   mx-auto">
+      <h3 className="text-xl font-bold">Login Form</h3>
+
+      <div className="">
+        <form
+          onSubmit={handleSubmit}
+          className=" border-2 p-4 rounded-sm"
+        >
+        <label className="block text-sm font-medium text-gray-700">
+          Email*
+          <input
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            className="mt-1 block w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600"
+          />
+        </label>
+        <br/>
+        <label className="block text-sm font-medium text-gray-700">
+          Password*
+          <input
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            className="mt-1 block w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600"
+          />
+        </label>
+        
+        <br/>
+        <div className="flex w-full justify-items-end">
+          <button name="submit"
+            type="submit"
+            className="w-[80px] py-2 bg-blue-800 text-white rounded hover:bg-pink-700"
+          >
+            Submit
+          </button>
+        </div>
+        
+        </form>
+      </div>
+      </div>
+    );
+};
+
+export default LoginForm;
