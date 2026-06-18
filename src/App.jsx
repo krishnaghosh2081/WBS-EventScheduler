@@ -1,13 +1,26 @@
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import  AuthenticationProvider  from "./context/AuthenticationContext";
+import { Route, Routes } from "react-router";
+import MainLayout from "./layouts/MainLayout";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import ProtectedLayout from "./layouts/ProtectedLayout";
 
 const App = () => {
-    return <div className='text-2xl'>Hello there:Event
-    <SignUpPage/>
-    <AuthenticationProvider>
-        <LoginPage/>
-    </AuthenticationProvider>
+    return <div className='text-2xl'>
+        <Routes>
+			<Route element={<MainLayout />}>
+				<Route path="/" element={<Home />} />
+				<Route path="/signup" element={<SignUpPage/>} />
+				<Route path="/login" element={<LoginPage/>} />
+                <Route element={<ProtectedLayout />}>
+                    //event
+                </Route>
+			</Route>						
+			<Route path="*" element={<NotFound />} />
+		</Routes>
+    
+    
     </div>;
 };
 

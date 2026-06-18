@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import  {useAuthenticationContext}  from '../context/AuthenticationContext';
 
 const initialState = { email: '',
     password: '', };
 const LoginForm = () => {
   const [form, setForm] = useState(initialState);
   const [error, setError] = useState(null);
+  const { addToken} = useAuthenticationContext();   
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ const LoginForm = () => {
   };
 
   const handleSubmit = (e) => {
-       
+    
     e.preventDefault();
     try{
         const email = form.email; 
@@ -39,9 +41,11 @@ const LoginForm = () => {
         console.log(content);
         const data = content.token;
         if(data){
-           // localStorage.setItem('token', data);
+           addToken(data);
            console.log(data);
             alert("Login successful!");
+            setForm(initialState);
+            window.location.href = '/';
         }else{
             alert("Login failed!");
         }
@@ -51,7 +55,7 @@ const LoginForm = () => {
     }catch(error){
       alert(error);
     }finally{
-        setForm(initialState);
+       // setForm(initialState);
     }
         
         
