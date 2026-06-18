@@ -1,5 +1,5 @@
 import { Navigate, Outlet, } from 'react-router';
-import  useAuthenticationContext  from '../context/AuthenticationContext';
+import  {useAuthenticationContext}  from '../context/AuthenticationContext';
 const ProtectedLayout = () => {
   const { token } = useAuthenticationContext();
   const isAuthenticated = !!token;

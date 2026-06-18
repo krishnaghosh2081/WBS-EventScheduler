@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import  {useAuthenticationContext}  from '../context/AuthenticationContext';
 
 
+
 const Navbar = () => {
   const { token} = useAuthenticationContext();
   
@@ -16,17 +17,23 @@ const Navbar = () => {
           <NavLink to="/">
             Home
           </NavLink>
+          <NavLink to="/create-event">
+            Create-Event
+          </NavLink>
           {!isAuthenticated ? <NavLink to="/login">
-            login
-          </NavLink> : <button className="btn" onClick={() => {
-            deleteToken();
-            window.location.reload();
-           window.location.href = '/';
+              login
+            </NavLink> : <button className="btn" onClick={() => {
+              deleteToken();
+              window.location.reload();
+            window.location.href = '/';
 
-          }}>
-            Logout
-          </button>
-      }
+            }}>
+              Logout
+            </button>
+          }
+          <NavLink to="/signup">
+            Signup
+          </NavLink>
           </nav>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import  {useAuthenticationContext}  from '../context/AuthenticationContext';
+import { NavLink } from "react-router";
 
 const initialState = { email: '',
     password: '', };
@@ -103,6 +104,10 @@ const LoginForm = () => {
         </div>
         
         </form>
+      </div>
+      
+      <div className="text-red-500 mt-2">
+        {error && <p>{error}</p>} 
       </div>
       </div>
     );

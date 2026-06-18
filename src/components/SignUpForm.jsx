@@ -37,6 +37,7 @@ const SignUpForm = () => {
         const content = await rawResponse.json();
 
         console.log(content);
+        window.location.href = '/login';
     };
      callApi()
         setForm(initialState);
@@ -89,6 +90,9 @@ const SignUpForm = () => {
         </div>
         
         </form>
+      </div>
+      <div className="text-red-500 mt-2">
+        {error && <p>{error}</p>} 
       </div>
       </div>
     );
