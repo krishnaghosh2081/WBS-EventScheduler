@@ -12,7 +12,7 @@ const Navbar = () => {
     <div className='navbar bg-base-300 shadow-sm'>
       
       <div className='navbar-end'>
-        <nav className='menu menu-horizontal items-baseline gap-2'>
+        <nav className='menu menu-horizontal items-baseline gap-2 bg-amber-200 rounded-lg p-2 flex '>
           <NavLink to="/">
             Home
           </NavLink>
