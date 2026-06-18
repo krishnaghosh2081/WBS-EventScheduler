@@ -1,4 +1,5 @@
-import {useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import EventCard from '../components/EventCard';
 
 const Home = () => {
     const [events, setEvents] = useState([]);
@@ -15,18 +16,15 @@ useEffect(() => {
 
     console.log("Current state of events:", events);
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Upcoming Events</h1>
-            <div className="grid gap-4">
-                {events.map((event) => (
-                    <div key={event.id} className="p-4 border rounded shadow">
-                        <h2 className="text-xl font-semibold">{event.title}</h2>
-                        <p>{event.date}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+  <div className="p-4">
+    <h1 className="text-2xl font-bold mb-4">Upcoming Events</h1>
+    <div className="grid gap-4">
+      {events.map((event) => (
+        <EventCard key={event.id} event={event} />
+      ))}
+    </div>
+  </div>
+);
 };
 
 export default Home;
