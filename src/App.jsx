@@ -5,6 +5,7 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ProtectedLayout from "./layouts/ProtectedLayout";
+import CreateEvent from "./pages/CreateEvent";
 
 const App = () => {
     return <div className='text-2xl'>
@@ -14,7 +15,7 @@ const App = () => {
 				<Route path="/signup" element={<SignUpPage/>} />
 				<Route path="/login" element={<LoginPage/>} />
                 <Route element={<ProtectedLayout />}>
-                    //event
+                    <Route path="/create-event" element={<CreateEvent/>} />
                 </Route>
 			</Route>						
 			<Route path="*" element={<NotFound />} />
