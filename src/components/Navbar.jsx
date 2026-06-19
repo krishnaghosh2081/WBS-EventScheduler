@@ -12,7 +12,7 @@ const Navbar = () => {
       {/* Logo Placeholder */}
       <div className="navbar-start">
         <div className="w-12 h-12 rounded-box border border-base-300 flex items-center justify-center">
-          LOGO
+          No FOMO
         </div>
       </div>
 
