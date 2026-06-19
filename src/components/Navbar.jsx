@@ -44,9 +44,11 @@ const Navbar = () => {
             </button>
           )}
 
-          <NavLink to="/signup" className="btn btn-primary btn-sm">
-            Signup
-          </NavLink>
+          {!isAuthenticated ? (
+            <NavLink to="/signup" className="btn btn-primary btn-sm">
+              Signup
+            </NavLink>
+          ) : null}
         </nav>
       </div>
     </div>
