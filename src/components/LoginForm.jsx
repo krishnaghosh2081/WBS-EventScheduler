@@ -29,6 +29,7 @@ const LoginForm = () => {
     if(!password )throw new Error("Password should not be blank ");
      
     const callApi=   async () => {
+      try{
             const rawResponse = await fetch('http://localhost:3001/api/auth/login', {
             method: 'POST',
             headers: {
@@ -39,28 +40,36 @@ const LoginForm = () => {
         });
         const content = await rawResponse.json();
         
-        console.log(content);
-        const data = content.token;
-        if(data){
+       // console.log(content.error);
+        if(content.error) {
+          console.log(content.error);
+          setError("Login failed!"+content.error);
+        }else{
+          const data = content.token;
+          if(data){
            addToken(data);
-           console.log(data);
+         //  console.log(data);
             alert("Login successful!");
             setForm(initialState);
             window.location.href = '/';
-        }else{
-            alert("Login failed!");
+          }else{
+            //console.log(data);
+            setError("Login failed!"+error);
+          }
         }
+      }catch(error){
+          console.log(error);
+          setError("Login failed!"+error);
+        }
+        
     };
      callApi()
         
     }catch(error){
-      alert(error);
-    }finally{
-       // setForm(initialState);
-    }
-        
-        
-    };
+      console.log(error);
+      setError("Login failed!"+error.message);
+    }      
+  };
   
 
   return (
