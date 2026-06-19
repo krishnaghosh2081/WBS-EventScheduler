@@ -25,8 +25,9 @@ const SignUpForm = () => {
     if(!email )throw new Error("Email should not be blank ");
     if(!password )throw new Error("Password should not be blank ");
      
-    const callApi=   async () => {
-            const rawResponse = await fetch('http://localhost:3001/api/users', {
+    const callApi=   async () => { 
+        try{
+          const rawResponse = await fetch('http://localhost:3001/api/users', {
             method: 'POST',
             headers: {
             'Accept': 'application/json',
@@ -34,18 +35,28 @@ const SignUpForm = () => {
             },
             body: JSON.stringify({ email, password })
         });
-        const content = await rawResponse.json();
+          //console.log(rawResponse);
 
-        console.log(content);
-        window.location.href = '/login';
+          const content = await rawResponse.json();
+            //console.log(content);
+          if(content.error) {
+            console.log(error);
+            setError("Signup failed!"+content.error);
+          }else{
+            setForm(initialState);
+            window.location.href = '/login';
+          }
+        }catch(error){
+          console.log(error);
+          setError("Signup failed!"+error);
+        }
     };
      callApi()
-        setForm(initialState);
+        
     }catch(error){
-      alert(error);
-    }
-        
-        
+      console.log(error);
+      setError("Signup failed!"+error);    
+    }      
     };
   
 
