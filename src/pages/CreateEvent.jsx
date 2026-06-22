@@ -3,7 +3,7 @@ import  {useAuthenticationContext}  from '../context/AuthenticationContext';
 
 const CreateEvent = () => {
   const { token} = useAuthenticationContext();
-  const [formData, setFormData] = useState({title: '', date: '', description: '',location: 'Frankfurt',latitude: '8.404746955649602', longitude: '49.01438194665317'});
+  const [formData, setFormData] = useState({title: '', date: '', description: '',location: '',latitude: '', longitude: ''});
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -42,6 +42,24 @@ const CreateEvent = () => {
           className="block border p-2 mb-2 w-full"
           onChange={(e) => setFormData({...formData, date: e.target.value})}
         />
+        <input
+  type="text"
+  placeholder="Location"
+  className="block border p-2 mb-2 w-full"
+  onChange={(e) => setFormData({...formData, location: e.target.value})}
+/>
+<input
+  type="text"
+  placeholder="Latitude"
+  className="block border p-2 mb-2 w-full"
+  onChange={(e) => setFormData({...formData, latitude: e.target.value})}
+/>
+<input
+  type="text"
+  placeholder="Longitude"
+  className="block border p-2 mb-2 w-full"
+  onChange={(e) => setFormData({...formData, longitude: e.target.value})}
+/>
         <textarea 
           placeholder="Description" 
           className="block border p-2 mb-2 w-full"
