@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 const EventDetails = () => {
-  // const { token } = useAuthenticationContext();
+  const { token } = useAuthenticationContext();
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [error, setError] = useState(null);
@@ -30,7 +30,30 @@ const EventDetails = () => {
   if (!event) {
     return <p>Loading....</p>;
   }
-  
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/events/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}` 
+        }
+      });
+
+      if (response.ok) {
+        alert("Event deleted successfully!");
+        window.location.href = '/'; 
+      } else {
+        const errorData = await response.json(); 
+        console.error("Delete failed:", errorData);
+        alert("Failed to delete event.");
+      }
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      setError("Error deleting event , check console log for more details...");
+    }
+  };
   return (
     <div className="card bg-base-100 shadow-xl max-w-4xl mx-auto">
       <div className="card-body">
@@ -95,6 +118,14 @@ const EventDetails = () => {
             </div>
           </div>
         </div>
+        <div className="mt-6 text-center">
+        <button 
+          onClick={handleDelete} 
+          className="btn btn-error text-white"
+        >
+          Delete Event
+        </button>
+      </div>
       </div>
     </div>
   );
