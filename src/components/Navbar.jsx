@@ -5,7 +5,7 @@ const Navbar = () => {
   const { token } = useAuthenticationContext();
 
   const { deleteToken } = useAuthenticationContext();
-  console.log(token);
+  //console.log(token);
   const isAuthenticated = !!token;
   return (
     <div className="navbar bg-base-100 shadow-md rounded-box px-4">
