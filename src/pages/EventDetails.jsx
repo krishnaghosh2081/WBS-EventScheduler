@@ -6,18 +6,31 @@ const EventDetails = () => {
   // const { token } = useAuthenticationContext();
   const { id } = useParams();
   const [event, setEvent] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/events/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setEvent(data);
+        setError(null);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+      console.error("Error fetching event details:", err);
+      setError("Error fetching event details , check console log for more details...");
+    });
   }, [id]);
+
+  if(error){
+    return <div className="text-red-500 mt-2">
+        {error && <p>{error}</p>} 
+    </div>
+  }
+  
   if (!event) {
     return <p>Loading....</p>;
   }
+  
   return (
     <div className="card bg-base-100 shadow-xl max-w-4xl mx-auto">
       <div className="card-body">
