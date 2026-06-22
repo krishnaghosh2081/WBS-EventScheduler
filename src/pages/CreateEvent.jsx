@@ -3,14 +3,17 @@ import  {useAuthenticationContext}  from '../context/AuthenticationContext';
 
 const CreateEvent = () => {
   const { token} = useAuthenticationContext();
-  const [formData, setFormData] = useState({title: '', date: '', description: ''});
+  const [formData, setFormData] = useState({title: '', date: '', description: '',location: 'Frankfurt',latitude: '8.404746955649602', longitude: '49.01438194665317'});
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
 
-    const response = await fetch('/api/events/', {
+    console.log("Token: ",token);
+    console.log("formData: ",formData);
+    const response = await fetch('http://localhost:3001/api/events/', {
       method: 'POST', 
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
