@@ -8,6 +8,7 @@ const LoginForm = () => {
   const [form, setForm] = useState(initialState);
   const [error, setError] = useState(null);
   const { addToken} = useAuthenticationContext();   
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -86,6 +87,7 @@ const LoginForm = () => {
           Email*
           <input
             name="email"
+            type="email"
             value={form.email}
             onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600"
@@ -96,12 +98,24 @@ const LoginForm = () => {
           Password*
           <input
             name="password"
+            type={
+              showPassword ? "text" : "password"
+            }
             value={form.password}
             onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600"
           />
         </label>
-        
+        <label className="block text-sm font-medium text-gray-700" for="check"> 
+                <input
+                    id="check"
+                    type="checkbox"
+                    value={showPassword}
+                    onChange={() =>
+                        setShowPassword((prev) => !prev)
+                    }
+                />Show Password
+        </label>
         <br/>
         <div className="flex w-full justify-items-end">
           <button name="submit"

@@ -5,6 +5,7 @@ const initialState = { email: '',
 const SignUpForm = () => {
   const [form, setForm] = useState(initialState);
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -74,6 +75,7 @@ const SignUpForm = () => {
           Email*
           <input
             name="email"
+            type="email"
             value={form.email}
             onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600"
@@ -84,10 +86,23 @@ const SignUpForm = () => {
           Password*
           <input
             name="password"
+            type={
+              showPassword ? "text" : "password"
+            }
             value={form.password}
             onChange={handleChange}
             className="mt-1 block w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600"
           />
+        </label>
+        <label className="block text-sm font-medium text-gray-700" for="check"> 
+                <input
+                    id="check"
+                    type="checkbox"
+                    value={showPassword}
+                    onChange={() =>
+                        setShowPassword((prev) => !prev)
+                    }
+                />Show Password
         </label>
         
         <br/>

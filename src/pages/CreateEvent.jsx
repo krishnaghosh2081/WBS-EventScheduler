@@ -4,6 +4,7 @@ import  {useAuthenticationContext}  from '../context/AuthenticationContext';
 const CreateEvent = () => {
   const { token} = useAuthenticationContext();
   const [formData, setFormData] = useState({title: '', date: '', description: '',location: '',latitude: '', longitude: ''});
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -18,12 +19,17 @@ const CreateEvent = () => {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(formData),
+    }).catch((err) => {
+      console.error("Error creating event details:", err);
+      setError("Error creating event , check console log for more details...");
     });
 
     if (response.ok) {
       alert('Event created successfully!');
+      setError(null);
     } else {
-      alert('Failed to create your event.');
+      //alert('Failed to create your event.');
+      setError("Error creating event , check console log for more details...");
     }
   };
 
@@ -69,7 +75,11 @@ const CreateEvent = () => {
           Submit Event
         </button>
       </form>
+      <div className="text-red-500 mt-2">
+        {error && <p>{error}</p>} 
     </div>
+    </div>
+    
   );
 };
 export default CreateEvent;
