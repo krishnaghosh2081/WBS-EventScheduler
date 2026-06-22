@@ -7,6 +7,12 @@ const EventDetails = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editFormData, setEditFormData] = useState(null);
+
+  useEffect(() => {
+if (event) setEditFormData(event);
+  }, [event]);
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/events/${id}`)
@@ -54,25 +60,65 @@ const EventDetails = () => {
       setError("Error deleting event , check console log for more details...");
     }
   };
+  const handleUpdate = async () => {
+  // Create a clean object with only the fields you want to update
+  const payload = {
+    title: editFormData.title,
+    description: editFormData.description,
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3001/api/events/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(payload) // Send the cleaned object
+    });
+
+      if (response.ok) {
+        alert("Event updated successfully!");
+        setIsEditing(false);
+        window.location.reload(); // Refresh the page to see changes
+      } else {
+        const errorData = await response.json();
+        console.error("Update failed:", errorData);
+        alert("Failed to update event.");
+      }
+    } catch (error) {
+      console.error("Error updating event:", error);
+      setError("Error updating event, check console log for more details...");
+    }
+  };
   return (
     <div className="card bg-base-100 shadow-xl max-w-4xl mx-auto">
       <div className="card-body">
         {/* Title */}
         <h1 className="card-title text-3xl md:text-4xl">{event.title}</h1>
 
-        {/* Date */}
-        <div className="badge badge-outline">
-          {new Date(event.date).toLocaleDateString('en-GB', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          })}
-        </div>
-
-        {/* Description */}
-        <p className="text-base-content/80 leading-relaxed mt-2">
-          {event.description}
-        </p>
+      {isEditing ? (
+  <div className="space-y-4">
+    <input 
+      value={editFormData.title} 
+      onChange={(e) => setEditFormData({...editFormData, title: e.target.value})} 
+      className="input input-bordered w-full"
+    />
+    <textarea 
+      value={editFormData.description} 
+      onChange={(e) => setEditFormData({...editFormData, description: e.target.value})} 
+      className="textarea textarea-bordered w-full"
+    />
+    <button onClick={handleUpdate} className="btn btn-success text-white">Save Changes</button>
+    <button onClick={() => setIsEditing(false)} className="btn btn-ghost">Cancel</button>
+  </div>
+) : (
+  <>
+    <h1 className="card-title text-3xl md:text-4xl">{event.title}</h1>
+    <p className="text-base-content/80 leading-relaxed mt-2">{event.description}</p>
+    <button onClick={() => setIsEditing(true)} className="btn btn-outline mt-4">Edit Event</button>
+  </>
+)}
 
         <div className="divider"></div>
 
