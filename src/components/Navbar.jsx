@@ -1,6 +1,8 @@
 import { NavLink } from 'react-router';
 import { useAuthenticationContext } from '../context/AuthenticationContext';
 
+import logo from '../assets/logo.png';
+
 const Navbar = () => {
   const { token } = useAuthenticationContext();
 
@@ -11,9 +13,7 @@ const Navbar = () => {
     <div className="navbar bg-base-100 shadow-md rounded-box px-4">
       {/* Logo Placeholder */}
       <div className="navbar-start">
-        <div className="w-12 h-12 rounded-box border border-base-300 flex items-center justify-center">
-          No FOMO
-        </div>
+        <img src={logo} alt="No FOMO Logo" className="h-20 w-auto" />
       </div>
 
       {/* Navigation */}
