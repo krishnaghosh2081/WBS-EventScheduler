@@ -113,11 +113,10 @@ if (event) setEditFormData(event);
     <button onClick={() => setIsEditing(false)} className="btn btn-ghost">Cancel</button>
   </div>
 ) : (
-  <>
-    <h1 className="card-title text-3xl md:text-4xl">{event.title}</h1>
+  <div>
     <p className="text-base-content/80 leading-relaxed mt-2">{event.description}</p>
     <button onClick={() => setIsEditing(true)} className="btn btn-outline mt-4">Edit Event</button>
-  </>
+  </div>
 )}
 
         <div className="divider"></div>
