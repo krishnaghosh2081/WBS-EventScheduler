@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-const initialState = { email: '',
-    password: '', };
+const initialState = { email: '', password: '' };
 const SignUpForm = () => {
   const [form, setForm] = useState(initialState);
   const [error, setError] = useState(null);
@@ -17,111 +16,88 @@ const SignUpForm = () => {
   };
 
   const handleSubmit = (e) => {
-       
     e.preventDefault();
-    try{
-        const email = form.email; 
-        const password = form.password; 
+    try {
+      const email = form.email;
+      const password = form.password;
 
-    if(!email )throw new Error("Email should not be blank ");
-    if(!password )throw new Error("Password should not be blank ");
-     
-    const callApi=   async () => { 
-        try{
+      if (!email) throw new Error('Email should not be blank ');
+      if (!password) throw new Error('Password should not be blank ');
+
+      const callApi = async () => {
+        try {
           const rawResponse = await fetch('http://localhost:3001/api/users', {
             method: 'POST',
             headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password })
-        });
+            body: JSON.stringify({ email, password }),
+          });
           //console.log(rawResponse);
 
           const content = await rawResponse.json();
-            //console.log(content);
-          if(content.error) {
+          //console.log(content);
+          if (content.error) {
             console.log(error);
-            setError("Signup failed!"+content.error);
-          }else{
+            setError('Signup failed! ' + content.error);
+          } else {
             setForm(initialState);
             window.location.href = '/login';
           }
-        }catch(error){
+        } catch (error) {
           console.log(error);
-          setError("Signup failed!"+error);
+          setError('Signup failed! ' + error);
         }
-    };
-     callApi()
-        
-    }catch(error){
+      };
+      callApi();
+    } catch (error) {
       console.log(error);
-      setError("Signup failed!"+error);    
-    }      
-    };
-  
+      setError('Signup failed! ' + error);
+    }
+  };
 
   return (
-        
-    <div className="bg-blue-200 p-6   mx-auto">
-      <h3 className="text-xl font-bold">Registration Form</h3>
+    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+      <legend className="fieldset-legend text-center text-xl ">Sign Up</legend>
+      <form onSubmit={handleSubmit}>
+        <label className="label">Email</label>
+        <input
+          name="email"
+          type="email"
+          value={form.email}
+          onChange={handleChange}
+          className="input"
+          placeholder="Email"
+        />
 
-      <div className="">
-        <form
-          onSubmit={handleSubmit}
-          className=" border-2 p-4 rounded-sm"
-        >
-        <label className="block text-sm font-medium text-gray-700">
-          Email*
+        <label className="label">Password</label>
+        <input
+          name="password"
+          type={showPassword ? 'text' : 'password'}
+          value={form.password}
+          onChange={handleChange}
+          className="input"
+          placeholder="Password"
+        />
+        <label className="label mt-0.75" for="check">
           <input
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600"
+            id="check"
+            type="checkbox"
+            value={showPassword}
+            onChange={() => setShowPassword((prev) => !prev)}
           />
+          Show Password
         </label>
-        <br/>
-        <label className="block text-sm font-medium text-gray-700">
-          Password*
-          <input
-            name="password"
-            type={
-              showPassword ? "text" : "password"
-            }
-            value={form.password}
-            onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600"
-          />
-        </label>
-        <label className="block text-sm font-medium text-gray-700" for="check"> 
-                <input
-                    id="check"
-                    type="checkbox"
-                    value={showPassword}
-                    onChange={() =>
-                        setShowPassword((prev) => !prev)
-                    }
-                />Show Password
-        </label>
-        
-        <br/>
-        <div className="flex w-full justify-items-end">
-          <button name="submit"
-            type="submit"
-            className="w-[80px] py-2 bg-blue-800 text-white rounded hover:bg-pink-700"
-          >
-            Submit
-          </button>
-        </div>
-        
-        </form>
-      </div>
-      <div className="text-red-500 mt-2">
-        {error && <p>{error}</p>} 
-      </div>
-      </div>
-    );
+        <br />
+        <button name="submit" type="submit" className="btn btn-neutral mt-4">
+          Register
+        </button>
+        <br />
+        <div className="text-red-500 mt-2">{error && <p>{error}</p>}</div>
+      </form>
+    </fieldset>
+  );
 };
 
 export default SignUpForm;
