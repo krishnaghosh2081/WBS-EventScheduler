@@ -61,24 +61,24 @@ const SignUpForm = () => {
     <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
       <legend className="fieldset-legend text-center text-xl ">Sign Up</legend>
       <form onSubmit={handleSubmit}>
-        <label className="label">Email</label>
+        <label className="label">Email:</label>
         <input
           name="email"
           type="email"
           value={form.email}
           onChange={handleChange}
           className="input"
-          placeholder="Email"
+          // placeholder="Email"
         />
 
-        <label className="label">Password</label>
+        <label className="label">Password:</label>
         <input
           name="password"
           type={showPassword ? 'text' : 'password'}
           value={form.password}
           onChange={handleChange}
           className="input"
-          placeholder="Password"
+          // placeholder="Password"
         />
         <label className="label mt-0.75" for="check">
           <input
