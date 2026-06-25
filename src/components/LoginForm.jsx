@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuthenticationContext } from '../context/AuthenticationContext';
-import { NavLink } from 'react-router';
+import { Navigate } from "react-router";
 
 const initialState = { email: '', password: '' };
 const LoginForm = () => {
@@ -8,6 +8,7 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const { addToken } = useAuthenticationContext();
   const [showPassword, setShowPassword] = useState(false);
+  const [authenticated,setAuthenticated]=useState(false);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -50,12 +51,10 @@ const LoginForm = () => {
             const data = content.token;
             if (data) {
               addToken(data);
-              //  console.log(data);
               alert('Login successful!');
+              setAuthenticated(true);
               setForm(initialState);
-              window.location.href = '/';
             } else {
-              //console.log(data);
               setError('Login failed! ' + error);
             }
           }
@@ -71,7 +70,14 @@ const LoginForm = () => {
     }
   };
 
+
+
+if(authenticated){
+  return <Navigate to="/" />;
+}
+
   return (
+   
     <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
       <legend className="fieldset-legend text-center text-xl">Login</legend>
       <form onSubmit={handleSubmit}>
@@ -110,7 +116,7 @@ const LoginForm = () => {
         <div className="text-red-500 mt-2">{error && <p>{error}</p>}</div>
       </form>
     </fieldset>
-  );
+);
 };
 
 export default LoginForm;
