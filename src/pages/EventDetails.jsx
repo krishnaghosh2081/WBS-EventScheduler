@@ -11,13 +11,18 @@ const EventDetails = () => {
   const [editFormData, setEditFormData] = useState(null);
 
   useEffect(() => {
-if (event) setEditFormData(event);
-  }, [event]);
+    if(event && event.date){
+      event.date=event.date.split('T')[0];
+    }
+    
+    if (event) setEditFormData(event);
+      }, [event]);
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/events/${id}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("Date:",data.date);
         setEvent(data);
         setError(null);
       })
@@ -65,6 +70,10 @@ if (event) setEditFormData(event);
   const payload = {
     title: editFormData.title,
     description: editFormData.description,
+    date: editFormData.date,
+    location: editFormData.location,
+    latitude: editFormData.latitude,
+    longitude: editFormData.longitude
   };
 
   try {
@@ -104,6 +113,43 @@ if (event) setEditFormData(event);
       onChange={(e) => setEditFormData({...editFormData, title: e.target.value})} 
       className="input input-bordered w-full"
     />
+    <input
+              type="date"
+              value={editFormData.date} 
+              className="input input-bordered w-full"
+              onChange={(e) =>
+                setEditFormData({ ...editFormData, date: e.target.value })
+              }
+            />
+
+            <input
+              type="text"
+              value={editFormData.location} 
+              className="input input-bordered w-full"
+              onChange={(e) =>
+                setEditFormData({ ...editFormData, location: e.target.value })
+              }
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                value={editFormData.latitude} 
+                className="input input-bordered w-full"
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, latitude: e.target.value })
+                }
+              />
+
+              <input
+                type="text"
+                value={editFormData.longitude} 
+                className="input input-bordered w-full"
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, longitude: e.target.value })
+                }
+              />
+            </div>
     <textarea 
       value={editFormData.description} 
       onChange={(e) => setEditFormData({...editFormData, description: e.target.value})} 
@@ -145,6 +191,16 @@ if (event) setEditFormData(event);
             <div className="stat-title">Created</div>
             <div className="stat-value text-lg">
               {new Date(event.createdAt).toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })}
+            </div>
+          </div>
+          <div className="stat">
+            <div className="stat-title">Event Date</div>
+            <div className="stat-value text-lg">
+              {new Date(event.date).toLocaleDateString('en-GB', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',
