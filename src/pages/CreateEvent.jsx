@@ -36,6 +36,7 @@ const CreateEvent = () => {
         if (response.ok) {
           alert('Event created successfully!');
           setError(null);
+          window.location.href = '/';
         } else {
           //alert('Failed to create your event.');
           setError('Error creating event , check console log for more details...');
