@@ -23,7 +23,7 @@ useEffect(() => {
     return (
   <div className="p-4">
     <h1 className="text-2xl font-bold mb-4">Upcoming Events</h1>
-    <div className="grid gap-4">
+    <div className="grid gap-4 grid-cols-[repeat(auto-fill,30rem)]">
       {events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
