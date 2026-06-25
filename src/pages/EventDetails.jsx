@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 const EventDetails = () => {
-  const { token } = useAuthenticationContext();
+  //const { token } = useAuthenticationContext();
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [error, setError] = useState(null);
@@ -44,25 +44,31 @@ const EventDetails = () => {
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this event?')) return;
 
-    try {
-      const response = await fetch(`http://localhost:3001/api/events/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const token=JSON.parse(localStorage.getItem('token')) || '';
+    console.log("token:",token);
+    if(token){
+      try {
+        const response = await fetch(`http://localhost:3001/api/events/${id}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (response.ok) {
-        alert('Event deleted successfully!');
-        window.location.href = '/';
-      } else {
-        const errorData = await response.json();
-        console.error('Delete failed:', errorData);
-        alert('Failed to delete event.');
+        if (response.ok) {
+          alert('Event deleted successfully!');
+          window.location.href = '/';
+        } else {
+          const errorData = await response.json();
+          console.error('Delete failed:', errorData);
+          alert('Failed to delete event.');
+        }
+      } catch (error) {
+        console.error('Error deleting event:', error);
+        setError('Error deleting event , check console log for more details...');
       }
-    } catch (error) {
-      console.error('Error deleting event:', error);
-      setError('Error deleting event , check console log for more details...');
+    }else{
+      window.location.href = '/login';
     }
   };
   const handleUpdate = async () => {
@@ -75,30 +81,34 @@ const EventDetails = () => {
       latitude: editFormData.latitude,
       longitude: editFormData.longitude,
     };
+    const token=JSON.parse(localStorage.getItem('token')) || '';
+    if(token){
+      try {
+        const response = await fetch(`http://localhost:3001/api/events/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload), // Send the cleaned object
+        });
 
-    try {
-      const response = await fetch(`http://localhost:3001/api/events/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload), // Send the cleaned object
-      });
-
-      if (response.ok) {
-        alert('Event updated successfully!');
-        setIsEditing(false);
-        window.location.reload(); // Refresh the page to see changes
-      } else {
-        const errorData = await response.json();
-        console.error('Update failed:', errorData);
-        alert('Failed to update event.');
+        if (response.ok) {
+          alert('Event updated successfully!');
+          setIsEditing(false);
+          window.location.reload(); // Refresh the page to see changes
+        } else {
+          const errorData = await response.json();
+          console.error('Update failed:', errorData);
+          alert('Failed to update event.');
+        }
+      } catch (error) {
+        console.error('Error updating event:', error);
+        setError('Error updating event, check console log for more details...');
       }
-    } catch (error) {
-      console.error('Error updating event:', error);
-      setError('Error updating event, check console log for more details...');
-    }
+  }else{
+    window.location.href = '/login';
+  }
   };
   return (
     <div className="card bg-base-100 shadow-xl max-w-4xl mx-auto">

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuthenticationContext } from '../context/AuthenticationContext';
 
 const CreateEvent = () => {
-  const { token } = useAuthenticationContext();
+  //const { token } = useAuthenticationContext();
   const [formData, setFormData] = useState({
     title: '',
     date: '',
@@ -16,28 +16,33 @@ const CreateEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Token: ', token);
-    console.log('formData: ', formData);
-    const response = await fetch('http://localhost:3001/api/events/', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    }).catch((err) => {
-      console.error('Error creating event details:', err);
-      setError('Error creating event , check console log for more details...');
-    });
+    //console.log('Token: ', token);
+    //console.log('formData: ', formData);
+    const token=JSON.parse(localStorage.getItem('token')) || '';
+    if(token){
+        const response = await fetch('http://localhost:3001/api/events/', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }).catch((err) => {
+          console.error('Error creating event details:', err);
+          setError('Error creating event , check console log for more details...');
+        });
 
-    if (response.ok) {
-      alert('Event created successfully!');
-      setError(null);
-    } else {
-      //alert('Failed to create your event.');
-      setError('Error creating event , check console log for more details...');
-    }
+        if (response.ok) {
+          alert('Event created successfully!');
+          setError(null);
+        } else {
+          //alert('Failed to create your event.');
+          setError('Error creating event , check console log for more details...');
+        }
+    }else{
+      window.location.href = '/login';
+    }   
   };
 
   return (
