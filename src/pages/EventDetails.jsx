@@ -105,13 +105,16 @@ const EventDetails = () => {
       <div className="card-body">
         {/* Title */}
         <h1 className="card-title text-3xl md:text-4xl">{event.title}</h1>
-        <div className="badge badge-soft badge-info">
-          {new Date(event.date).toLocaleDateString('en-GB', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          })}
-        </div>
+        {isEditing ? null : (
+          <div className="badge badge-soft badge-info">
+            {new Date(event.date).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })}
+          </div>
+        )}
+
         {isEditing ? (
           <div className="space-y-4">
             <input
