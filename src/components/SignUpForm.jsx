@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { Navigate } from "react-router";
 
 const initialState = { email: '', password: '' };
 const SignUpForm = () => {
   const [form, setForm] = useState(initialState);
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [signedin,setSignedin]=useState(false);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const SignUpForm = () => {
             setError('Signup failed! ' + content.error);
           } else {
             setForm(initialState);
-            window.location.href = '/login';
+            setSignedin(true);
           }
         } catch (error) {
           console.log(error);
@@ -57,6 +59,9 @@ const SignUpForm = () => {
     }
   };
 
+  if(signedin){
+  return <Navigate to="/login" />;
+}
   return (
     <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
       <legend className="fieldset-legend text-center text-xl ">Sign Up</legend>

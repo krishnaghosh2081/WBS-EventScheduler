@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuthenticationContext } from '../context/AuthenticationContext';
+import { Navigate } from "react-router";
 
 const CreateEvent = () => {
   //const { token } = useAuthenticationContext();
@@ -12,6 +13,7 @@ const CreateEvent = () => {
     longitude: '',
   });
   const [error, setError] = useState(null);
+  const [redirect,setRedirect]=useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,16 +38,18 @@ const CreateEvent = () => {
         if (response.ok) {
           alert('Event created successfully!');
           setError(null);
-          window.location.href = '/';
+          setRedirect('/');
         } else {
-          //alert('Failed to create your event.');
           setError('Error creating event , check console log for more details...');
         }
     }else{
-      window.location.href = '/login';
+      setRedirect('/login');
     }   
   };
 
+  if(redirect){
+  return <Navigate to={redirect} />;
+}
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="card bg-base-100 shadow-xl border border-base-300">
