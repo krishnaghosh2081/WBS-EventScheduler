@@ -4,7 +4,7 @@ import SignUpForm from "../components/SignUpForm";
 
   return (
         
-    <div className=" ">
+    <div className="flex justify-center ">
       <SignUpForm />
       </div>
     );
