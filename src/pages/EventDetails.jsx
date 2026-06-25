@@ -1,6 +1,6 @@
 import { useAuthenticationContext } from '../context/AuthenticationContext';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, Navigate } from 'react-router';
 
 const EventDetails = () => {
   //const { token } = useAuthenticationContext();
@@ -9,6 +9,7 @@ const EventDetails = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editFormData, setEditFormData] = useState(null);
+  const [redirect,setRedirect]=useState('');
 
   useEffect(() => {
     if (event && event.date) {
@@ -19,6 +20,7 @@ const EventDetails = () => {
   }, [event]);
 
   useEffect(() => {
+    console.log("id:", id);
     fetch(`http://localhost:3001/api/events/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -57,7 +59,8 @@ const EventDetails = () => {
 
         if (response.ok) {
           alert('Event deleted successfully!');
-          window.location.href = '/';
+          //window.location.href = '/';
+          setRedirect('/');
         } else {
           const errorData = await response.json();
           console.error('Delete failed:', errorData);
@@ -68,7 +71,8 @@ const EventDetails = () => {
         setError('Error deleting event , check console log for more details...');
       }
     }else{
-      window.location.href = '/login';
+      //window.location.href = '/login';
+      setRedirect('/login');
     }
   };
   const handleUpdate = async () => {
@@ -96,7 +100,7 @@ const EventDetails = () => {
         if (response.ok) {
           alert('Event updated successfully!');
           setIsEditing(false);
-          window.location.reload(); // Refresh the page to see changes
+         setRedirect("/");
         } else {
           const errorData = await response.json();
           console.error('Update failed:', errorData);
@@ -107,9 +111,15 @@ const EventDetails = () => {
         setError('Error updating event, check console log for more details...');
       }
   }else{
-    window.location.href = '/login';
+   setRedirect('/login');
   }
   };
+
+  if(redirect){
+    console.log("/events/"+id);
+  return <Navigate to={redirect} />;
+}
+
   return (
     <div className="card bg-base-100 shadow-xl max-w-4xl mx-auto">
       <div className="card-body">
