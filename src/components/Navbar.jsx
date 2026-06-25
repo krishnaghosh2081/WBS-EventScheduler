@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { NavLink } from 'react-router';
 import { useAuthenticationContext } from '../context/AuthenticationContext';
 
@@ -7,8 +8,23 @@ const Navbar = () => {
   const { token } = useAuthenticationContext();
 
   const { deleteToken } = useAuthenticationContext();
-  //console.log(token);
+
   const isAuthenticated = !!token;
+
+  /* ================= local storage for theme ================= */
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
+  const handleThemeChange = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+
+    localStorage.setItem('theme', theme);
+  };
+  /* ================= END of local storage for theme ================= */
+
   return (
     <div className="navbar bg-base-100 shadow-md rounded-box px-4">
       {/* Logo Placeholder */}
@@ -54,8 +70,6 @@ const Navbar = () => {
           ===========================================================
           =========================================================== */}
 
-          {/* drop down theme choose goes here */}
-          {/* Theme Selector */}
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-sm">
               Theme
@@ -81,6 +95,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Light"
                   value="light"
+                  onChange={() => handleThemeChange('light')}
                 />
               </li>
 
@@ -91,6 +106,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Dark"
                   value="dark"
+                  onChange={() => handleThemeChange('dark')}
                 />
               </li>
 
@@ -101,6 +117,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Cupcake"
                   value="cupcake"
+                  onChange={() => handleThemeChange('cupcake')}
                 />
               </li>
 
@@ -111,6 +128,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Bumblebee"
                   value="bumblebee"
+                  onChange={() => handleThemeChange('bumblebee')}
                 />
               </li>
 
@@ -121,6 +139,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Emerald"
                   value="emerald"
+                  onChange={() => handleThemeChange('emerald')}
                 />
               </li>
 
@@ -131,6 +150,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Corporate"
                   value="corporate"
+                  onChange={() => handleThemeChange('corporate')}
                 />
               </li>
 
@@ -141,6 +161,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Synthwave"
                   value="synthwave"
+                  onChange={() => handleThemeChange('synthwave')}
                 />
               </li>
 
@@ -151,6 +172,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Retro"
                   value="retro"
+                  onChange={() => handleThemeChange('retro')}
                 />
               </li>
 
@@ -161,6 +183,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Cyberpunk"
                   value="cyberpunk"
+                  onChange={() => handleThemeChange('cyberpunk')}
                 />
               </li>
 
@@ -171,6 +194,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Valentine"
                   value="valentine"
+                  onChange={() => handleThemeChange('valentine')}
                 />
               </li>
 
@@ -181,6 +205,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Halloween"
                   value="halloween"
+                  onChange={() => handleThemeChange('halloween')}
                 />
               </li>
 
@@ -191,6 +216,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Garden"
                   value="garden"
+                  onChange={() => handleThemeChange('garden')}
                 />
               </li>
 
@@ -201,6 +227,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Forest"
                   value="forest"
+                  onChange={() => handleThemeChange('forest')}
                 />
               </li>
 
@@ -211,6 +238,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Aqua"
                   value="aqua"
+                  onChange={() => handleThemeChange('aqua')}
                 />
               </li>
 
@@ -221,6 +249,7 @@ const Navbar = () => {
                   className="theme-controller btn btn-ghost btn-sm btn-block justify-start"
                   aria-label="Luxury"
                   value="luxury"
+                  onChange={() => handleThemeChange('luxury')}
                 />
               </li>
             </ul>
